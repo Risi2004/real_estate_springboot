@@ -1,0 +1,498 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Contact Owner</title>
+    <style>
+        :root {
+            --primary-color: #2563eb;
+            --secondary-color: #1e40af;
+            --accent-color: #f59e0b;
+            --danger-color: #dc2626;
+            --success-color: #10b981;
+            --light-bg: #f3f4f6;
+            --dark-text: #1f2937;
+            --light-text: #f9fafb;
+            --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.05);
+            --shadow-md: 0 4px 6px rgba(0, 0, 0, 0.1);
+            --shadow-lg: 0 10px 15px rgba(0, 0, 0, 0.1);
+            --border-radius: 8px;
+        }
+
+        * {
+            font-family: "Glacial Indifference", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, sans-serif;
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            background-color: #f9f9f9;
+            color: var(--dark-text);
+            line-height: 1.6;
+        }
+
+        /* Navbar Styling - Kept the same as requested */
+        .nav__bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0.75rem 2rem;
+            background-color: white;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        .nav__bar__section1 {
+            display: flex;
+            gap: 2rem;
+        }
+
+        .nav__bar__section1 a {
+            text-decoration: none;
+            color: #1f2937;
+            font-weight: 500;
+            position: relative;
+            padding: 0.5rem 0;
+            transition: color 0.3s;
+        }
+
+        .nav__bar__section1 a:hover {
+            color: var(--primary-color);
+        }
+
+        .nav__bar__section1 a::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: 0;
+            left: 0;
+            background-color: var(--primary-color);
+            transition: width 0.3s ease;
+        }
+
+        .nav__bar__section1 a:hover::after {
+            width: 100%;
+        }
+
+        .nav__bar__section2 img {
+            width: 150px;
+            height: auto;
+        }
+
+        .nav__bar__section3 {
+            display: flex;
+            align-items: center;
+        }
+
+        .nav__bar__right {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            cursor: pointer;
+            padding: 0.5rem;
+            border-radius: 8px;
+            transition: background-color 0.2s;
+        }
+
+        .nav__bar__right:hover {
+            background-color: var(--light-bg);
+        }
+
+        .profile {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 2px solid var(--primary-color);
+        }
+
+        .username {
+            font-weight: 500;
+            color: #1f2937;
+        }
+
+        .dropdown-arrow {
+            font-size: 0.75rem;
+            color: #64748b;
+        }
+
+        .popup-card {
+            display: none;
+            position: absolute;
+            right: 0;
+            top: 60px;
+            background-color: white;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+            border-radius: 8px;
+            padding: 10px 0;
+            z-index: 999;
+            animation: fadeIn 0.3s ease-in-out;
+            min-width: 200px;
+            border: 1px solid #e5e7eb;
+        }
+
+        .popup-card a {
+            display: block;
+            padding: 10px 20px;
+            text-decoration: none;
+            color: #1f2937;
+            font-weight: 500;
+            transition: background-color 0.2s;
+        }
+
+        .popup-card a:hover {
+            background-color: var(--light-bg);
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(-10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Enhanced Page Header */
+        .page-header {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            padding: 40px 20px;
+            text-align: center;
+            margin-bottom: 40px;
+            border-radius: 0 0 10px 10px;
+            box-shadow: var(--shadow-md);
+        }
+
+        .page-header h1 {
+            font-size: 2.2rem;
+            margin-bottom: 10px;
+            font-weight: 600;
+        }
+
+        .page-header p {
+            font-size: 1.1rem;
+            max-width: 600px;
+            margin: 0 auto;
+            opacity: 0.9;
+        }
+
+        /* Enhanced Container */
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Property info card */
+        .property-card {
+            background: white;
+            border-radius: var(--border-radius);
+            padding: 20px;
+            margin-bottom: 30px;
+            box-shadow: var(--shadow-sm);
+            display: flex;
+            align-items: center;
+            border-left: 4px solid var(--accent-color);
+        }
+
+        .property-icon {
+            background-color: var(--light-bg);
+            border-radius: 50%;
+            width: 60px;
+            height: 60px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 20px;
+            color: var(--primary-color);
+            font-size: 24px;
+        }
+
+        .property-info h3 {
+            margin-bottom: 5px;
+            font-weight: 600;
+        }
+
+        .property-info p {
+            color: #64748b;
+            margin: 0;
+        }
+
+        /* Enhanced Form Styling */
+        .contact-form {
+            background-color: white;
+            padding: 30px;
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow-md);
+            margin-bottom: 40px;
+        }
+
+        .form-title {
+            margin-bottom: 25px;
+            font-size: 1.5rem;
+            font-weight: 600;
+            padding-bottom: 10px;
+            border-bottom: 2px solid var(--light-bg);
+            color: var(--dark-text);
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+            color: var(--dark-text);
+        }
+
+        .form-control {
+            display: block;
+            width: 100%;
+            padding: 12px 15px;
+            font-size: 1rem;
+            line-height: 1.5;
+            color: var(--dark-text);
+            background-color: #fff;
+            background-clip: padding-box;
+            border: 1px solid #d1d5db;
+            border-radius: var(--border-radius);
+            transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+        }
+
+        .form-control:focus {
+            border-color: var(--primary-color);
+            outline: 0;
+            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.25);
+        }
+
+        .form-control::placeholder {
+            color: #9ca3af;
+            opacity: 1;
+        }
+
+        textarea.form-control {
+            resize: vertical;
+            min-height: 100px;
+        }
+
+        .btn {
+            display: inline-block;
+            font-weight: 500;
+            text-align: center;
+            vertical-align: middle;
+            cursor: pointer;
+            user-select: none;
+            padding: 12px 24px;
+            font-size: 1rem;
+            line-height: 1.5;
+            border-radius: var(--border-radius);
+            transition: all 0.2s ease-in-out;
+        }
+
+        .btn-primary {
+            color: #fff;
+            background-color: var(--primary-color);
+            border: none;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .btn-primary:hover {
+            background-color: var(--secondary-color);
+            transform: translateY(-1px);
+            box-shadow: var(--shadow-md);
+        }
+
+        .btn-primary:active {
+            transform: translateY(0);
+            box-shadow: var(--shadow-sm);
+        }
+
+        .btn-block {
+            display: block;
+            width: 100%;
+        }
+
+        /* Success message styling */
+        .alert {
+            padding: 15px 20px;
+            margin-bottom: 20px;
+            border: 1px solid transparent;
+            border-radius: var(--border-radius);
+            animation: fadeIn 0.5s ease-in-out;
+        }
+
+        .alert-success {
+            color: #0f5132;
+            background-color: #d1e7dd;
+            border-color: #badbcc;
+            display: flex;
+            align-items: center;
+        }
+
+        .alert-icon {
+            margin-right: 10px;
+            font-size: 20px;
+        }
+
+        /* Time slots styles - removed */
+
+        /* Footer */
+        .footer {
+            text-align: center;
+            padding: 30px 0;
+            margin-top: 40px;
+            background-color: white;
+            border-top: 1px solid #e5e7eb;
+        }
+
+        .footer p {
+            color: #6b7280;
+            font-size: 0.9rem;
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 768px) {
+            .page-header {
+                padding: 30px 15px;
+            }
+
+            .page-header h1 {
+                font-size: 1.8rem;
+            }
+
+            .container {
+                padding: 0 15px;
+            }
+
+            .property-card {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            .property-icon {
+                margin: 0 0 15px 0;
+            }
+
+            .time-slots {
+                justify-content: center;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<!-- Navbar - Kept unchanged as requested -->
+<div class="nav__bar">
+    <div class="nav__bar__section1">
+        <a href="/home">Home</a>
+        <a href="/sales">Sales</a>
+        <a href="/contact">Contact Us</a>
+    </div>
+    <div class="nav__bar__section2">
+        <img src="./Images/smaller-feather-300x134.png" alt="Logo">
+    </div>
+    <div class="nav__bar__section3">
+        <div style="position: relative;">
+            <div class="nav__bar__right" onclick="togglePopup()">
+                <img src="./Images/profile.png" alt="profile" class="profile" onclick="togglePopup()">
+                <p class="username"> <span th:text="${username}"></span> </p>
+                <span class="dropdown-arrow">▼</span>
+            </div>
+            <div id="popupCard" class="popup-card">
+                <a href="/edit">Edit Details</a>
+                <a href="/logout">Sign Out</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Enhanced Page Header -->
+<div class="page-header">
+    <h1>Contact Property Owner</h1>
+    <p>Schedule your property visit by filling out the form below</p>
+</div>
+
+<div class="container">
+    <!-- Property Info Card -->
+    <div class="property-card">
+        <div class="property-icon">
+            <span>📍</span>
+        </div>
+        <div class="property-info">
+            <h3>Property Details</h3>
+            <p>Location: <strong th:text="${propertyLocation}">Property Location</strong></p>
+            <p>Owner: <strong th:text="${owner}">Owner Name</strong></p>
+        </div>
+    </div>
+
+    <!-- Success Alert -->
+    <div th:if="${success}" class="alert alert-success">
+        <span class="alert-icon">✓</span>
+        <span>Your request has been sent successfully! The owner will contact you soon.</span>
+    </div>
+
+    <!-- Enhanced Contact Form -->
+    <form method="post" action="/contact-owner" class="contact-form">
+        <h2 class="form-title">Schedule Your Visit</h2>
+
+        <input type="hidden" name="owner" th:value="${owner}"/>
+        <input type="hidden" name="propertyLocation" th:value="${propertyLocation}"/>
+
+        <div class="form-group">
+            <label for="name" class="form-label">Your Name</label>
+            <input type="text" id="name" name="name" class="form-control" placeholder="Enter your full name" required>
+        </div>
+
+        <div class="form-group">
+            <label for="date" class="form-label">Preferred Visit Date</label>
+            <input type="date" id="date" name="date" class="form-control" required>
+        </div>
+
+        <div class="form-group">
+            <label for="timeSlot" class="form-label">Available Time Slot:</label>
+            <input type="text" id="timeSlot" name="timeSlot" class="form-control" required>
+        </div>
+
+        <div class="form-group">
+            <label for="contactNo" class="form-label">Contact Number</label>
+            <input type="tel" id="contactNo" name="contactNo" class="form-control" placeholder="Enter your phone number" required>
+        </div>
+
+        <div class="form-group">
+            <label for="message" class="form-label">Message (Optional)</label>
+            <textarea id="message" name="message" class="form-control" rows="4" placeholder="Any specific requirements or questions?"></textarea>
+        </div>
+
+        <button type="submit" class="btn btn-primary btn-block">Send Visit Request</button>
+    </form>
+</div>
+
+
+<script>
+    // Popup toggle function
+    function togglePopup() {
+        const card = document.getElementById("popupCard");
+        card.style.display = card.style.display === "block" ? "none" : "block";
+    }
+
+    // Close popup when clicking outside
+    window.onclick = function(event) {
+        const card = document.getElementById("popupCard");
+        if (!event.target.closest('.nav__bar__right')) {
+            card.style.display = "none";
+        }
+    };
+
+</script>
+
+</body>
+</html>

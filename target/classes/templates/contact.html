@@ -1,0 +1,687 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Contact Us</title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Gabarito:wght@400..900&family=Young+Serif&display=swap"
+          rel="stylesheet">
+    <style>
+        body{
+            margin: 0;
+        }
+        * {
+            font-family: "Glacial Indifference", sans-serif;
+            font-optical-sizing: auto;
+            font-weight: <weight>;
+            font-style: normal;
+            font-variation-settings: "wdth" 100;
+            margin: 0px;
+        }
+        .nav__bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0.75rem 2rem;
+            background-color: white;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        .nav__bar__section1 {
+            display: flex;
+            gap: 2rem;
+        }
+
+        .nav__bar__section1 a {
+            text-decoration: none;
+            color: #1f2937;
+            font-weight: 500;
+            position: relative;
+            padding: 0.5rem 0;
+            transition: color 0.3s;
+        }
+
+        .nav__bar__section1 a:hover {
+            color: #2563eb;
+        }
+
+        .nav__bar__section1 a::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: 0;
+            left: 0;
+            background-color: #2563eb;
+            transition: width 0.3s ease;
+        }
+
+        .nav__bar__section1 a:hover::after {
+            width: 100%;
+        }
+
+        .nav__bar__section2 {
+            flex: 1;
+            display: flex;
+            justify-content: center;
+        }
+
+        .nav__bar__section2 img {
+            width: 150px;
+            height: auto;
+        }
+
+        .nav__bar__section3 {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            position: relative;
+        }
+
+        .nav__bar__right {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            cursor: pointer;
+            padding: 0.5rem;
+            border-radius: 8px;
+            transition: background-color 0.2s;
+        }
+
+        .nav__bar__right:hover {
+            background-color: #f3f4f6;
+        }
+
+        .profile {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 2px solid #2563eb;
+        }
+
+        .username {
+            font-weight: 500;
+            margin-right: 10px;
+            color: #1f2937;
+        }
+
+        /* === Profile Dropdown Popup === */
+        .popup-card {
+            display: none;
+            position: absolute;
+            right: 0;
+            top: 60px;
+            background-color: white;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            border-radius: 8px;
+            padding: 10px 0;
+            z-index: 999;
+            animation: fadeIn 0.3s ease-in-out;
+            min-width: 200px;
+            border: 1px solid #e5e7eb;
+        }
+
+        .popup-card a {
+            display: block;
+            padding: 10px 20px;
+            text-decoration: none;
+            color: #1f2937;
+            font-weight: 500;
+            transition: background-color 0.2s;
+        }
+
+        .popup-card a:hover {
+            background-color: #f3f4f6;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(-10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* === Responsive Adjustments === */
+        @media (max-width: 768px) {
+            .nav__bar {
+                flex-direction: column;
+                gap: 1rem;
+                padding: 1rem;
+            }
+
+            .nav__bar__section1 {
+                gap: 1.5rem;
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+
+            .nav__bar__section2 {
+                justify-content: center;
+            }
+
+            .nav__bar__section3 {
+                justify-content: center;
+            }
+
+            .popup-card {
+                right: auto;
+                left: 0;
+            }
+        }
+
+
+        .sale__image__two img {
+            width: 100%;
+            height: 100%;
+            position: relative;
+            filter: brightness(65%);
+            border-top: #CC0201 5px solid;
+        }
+
+        .sale__image__two__content {
+            width: 700px;
+            position: absolute;
+            top: 200px;
+            color: white;
+            font-size: 30px;
+            left: 150px;
+        }
+
+        .sale__image__two__content button {
+            padding: 10px;
+            font-size: 20px;
+            margin-top: 20px;
+            border: none;
+        }
+
+        .sale__image__two__content__two__part__one li::marker {
+            color: #FF2A0E;
+        ;
+            font-size: 30px;
+        }
+
+        .sale__image__two__content {
+            width: 700px;
+            position: absolute;
+            top: 200px;
+            color: white;
+            font-size: 30px;
+            left: 150px;
+        }
+
+        .sale__image__two__content button {
+            padding: 10px;
+            font-size: 20px;
+            margin-top: 20px;
+            border: none;
+        }
+        .sale__image__two__content__two__part__one ul {
+            margin-top: 20px;
+            list-style-type: square;
+        }
+
+        .sale__image__two__content__two__part__one p {
+            margin: 10px;
+            padding: 10px;
+        }
+
+        .sale__image__two__content__two__part__one {
+            width: 45%;
+            margin-left: 20px;
+        }
+
+        #new__list {
+            list-style-type: disc;
+            margin-left: 40px;
+        }
+
+        #new__list li::marker {
+            color: black;
+        }
+
+        .sale__image__two__content__two {
+            display: flex;
+            gap: 20px;
+        }
+
+        .sale__image__two__content__two__part__two li::marker {
+            color: #FF2A0E;
+            font-size: 30px;
+        }
+
+        .sale__image__two__content__two__part__two ul {
+            margin-top: 20px;
+            list-style-type: square;
+        }
+
+        .sale__image__two__content__two__part__two p{
+            width: 700px;
+        }
+        .sale__image__two__content__two__part__two button{
+            background-color: #CC0201;
+            margin: 10px;
+            padding: 10px;
+            margin-bottom: 10px;
+            color: white;
+            border: none;
+        }
+        .contact__information ul{
+            margin: 20px;
+            list-style-type: square;
+        }
+        .contact__information li::marker {
+            color: #FF2A0E;
+            font-size: 30px;
+        }
+        .contact__information h2, .contact__information p{
+            margin-left: 100px;
+            font-size: 25px;
+        }
+        .contact__information p{
+            font-size: 18px;
+        }
+        .contact__information{
+            margin-bottom: 20px;
+        }
+        .contact__information h2{
+            color: #CC0201;
+        }
+
+        form {
+            text-align: center;
+            color: white;
+            padding: 20px;
+            background-color: #142542;
+        }
+
+        .news__letter h1 {
+            margin-top: 10px;
+            padding: 10px;
+            padding-bottom: 20px;
+        }
+
+        .news__letter__section1 {
+            display: flex;
+            justify-content: center;
+            width: 95%;
+            margin-left: 25px;
+            align-items: center;
+            gap: 20px;
+            padding-bottom: 30px;
+        }
+
+
+        .news__letter__section2 input {
+            width: 900px;
+            height: 25px;
+            border-radius: 10px;
+            padding: 10px;
+            margin-bottom: 20px;
+            border: transparent;
+        }
+
+        .news__letter__section2 p {
+            margin-bottom: 5px;
+        }
+
+
+        .news__letter__section1 input{
+            height: 20px;
+            padding: 10px;
+            border-radius: 10px;
+        }
+
+        .news__letter__section4 button {
+            padding: 15px;
+            background-color: #CC0201;
+            margin: 10px;
+            margin-bottom: 30px;
+            border: none;
+            color: white;
+            border-radius: 30px;
+        }
+
+        .footer__section {
+            display: flex;
+            color: white;
+            justify-content: space-between;
+            gap: 10px;
+            background-color: #142542;
+        }
+
+        .footer__section__one a {
+            text-decoration: none;
+            color: white;
+        }
+
+        .footer__section__one__social {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-top: 20px;
+            margin-right: 30px;
+            gap: 10px;
+        }
+
+        .footer__section__one__social__images img {
+            width: 20px;
+            height: 20px;
+            margin-right: 10px;
+        }
+
+        .footer__section__two {
+            color: white;
+            font-size: 14px;
+            background-color: #142542;
+            margin-bottom: 20px;
+        }
+
+        .footer__section__two {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 200px;
+        }
+
+        form {
+            width: 500px;
+            padding: 20px;
+            border-radius: 5px;
+            background-color: white;
+        }
+        .profile{
+            width: 30px;
+            height: 30px;
+        }
+        .news__letter__section1 input{
+            width: 90px;
+            gap: 5px;
+        }
+        .news__letter__section1{
+            margin-left: 5px;
+        }
+        .news__letter__section3{
+            margin-left: 20px;
+            font-size: 15px;
+            width: 95%;
+        }
+        .footer__section__two__one img {
+            height: 50px;
+            width: 50px;
+            margin-top: 20px;
+            margin-left: 20px
+        }
+
+        .sale__image__two__content__two__part__two p{
+            width: 700px;
+        }
+        .sale__image__two__content__two__part__two button{
+            background-color: #CC0201;
+            margin: 10px;
+            padding: 10px;
+            margin-bottom: 10px;
+            color: white;
+            border: none;
+        }
+        .sale__image__two__content__two__part__two li::marker {
+            color: #FF2A0E;
+            font-size: 30px;
+        }
+
+        .sale__image__two__content__two__part__two ul {
+            margin-top: 20px;
+            list-style-type: square;
+        }
+        .footer__end {
+            text-align: center;
+            margin-right: 20px;
+        }
+
+        .footer__section__one {
+            margin: 20px;
+        }
+
+        .footer__section__two__one {
+            margin-bottom: 20px;
+            margin-left: 20px;
+            width: 200px;
+        }
+
+        .background__image img {
+            width: 100%;
+            height: 100%;
+            filter: brightness(70%);
+        }
+        .nav__bar__right{
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 10px;
+        }
+        .nav__bar__right {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            cursor: pointer;
+            padding: 0.5rem;
+            border-radius: var(--border-radius);
+            transition: background-color 0.2s;
+        }
+        .nav__bar__right:hover {
+            background-color: #F3F4F6FF;
+        }
+
+    </style>
+</head>
+
+<body>
+<!--navbar-->
+<div class="nav__bar">
+    <div class="nav__bar__section1">
+        <a href="./home">Home</a>
+        <a href="/sales">Sales</a>
+        <a href="/contact">Contact Us</a>
+    </div>
+    <div class="nav__bar__section2">
+        <img src="./Images/smaller-feather-300x134.png" alt="Logo">
+    </div>
+    <div class="nav__bar__section3">
+        <div style="position: relative;">
+            <div class="nav__bar__right" onclick="togglePopup()">
+                <img src="./Images/profile.png" alt="profile" class="profile">
+                <p class="username"> <span th:text="${username}"></span> </p>
+                <span class="dropdown-arrow" style="cursor: pointer">▼</span>
+            </div>
+
+            <div id="popupCard" class="popup-card">
+                <a href="/edit">Edit Details</a>
+<!--                <a href="/delete">Delete Your Account</a>-->
+                <a href="/logout">Sign Out</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--sale__image-->
+<div class="sale__image__two">
+    <img src="./Images/house interiro.jpg" alt="House Interier">
+</div>
+<div class="sale__image__two__content">
+    <h1>Contact</h1>
+    <br>
+    <p>If you have any inquiries or require assistance, our team of knowledgeable professionals is available to to
+        assist you. You can reach us through email at info@redcardinal.lk during our business hours from Monday to
+        Friday 9.00 a.m. to 5.00 p.m.</p>
+    <button>About Us</button>
+</div>
+<div class="sale__image__two__content__two">
+    <div class="sale__image__two__content__two__part__one">
+        <ul>
+            <li>
+                <h1>Invest in your Future Today</h1>
+            </li>
+        </ul>
+        <p>Build your nest for future generations with Red Cardinal Property Investment.</p>
+        <ul id="new__list">
+            <li>Conducting thorough market research to identify attractive investment opportunities and potential
+                risks.
+            </li>
+            <li>Developing relationships with key industry players, such as real estate agents, property developers,
+                and financiers, to gain access to the best investment opportunities.
+            </li>
+            <li>Providing our clients with tailored investment strategies based on their individual goals and risk
+                tolerance.
+            </li>
+            <li>Offering a range of services, including property acquisition, management, and development, to ensure
+                our clients’ investments are well-managed and generate long-term returns.
+            </li>
+            <li>Providing our clients with regular updates on their investments and the wider property market to
+                help them make informed decisions.
+            </li>
+        </ul>
+    </div>
+    <div class="sale__image__two__content__two__part__two">
+        <ul>
+            <li>
+                <h1>Make an enquiry</h1>
+            </li>
+        </ul>
+        <br>
+        <p>Red Cardinal Property Investment is committed to protecting and respecting your privacy, and we’ll only
+            use your personal information to administer your account and to provide the products and services you
+            requested from us. From time to time, we would like to contact you about our products and services, as
+            well as other content that may be of interest to you. If you consent to us contacting you for this
+            purpose, please tick below to say how you would like us to contact you</p>
+        <br>
+        <p>You can unsubscribe from these communications at any time. For more information on how to unsubscribe,
+            our privacy practices, and how we are committed to protecting and respecting your privacy, please review
+            our Privacy Policy.</p>
+        <br>
+        <p>By clicking submit below, you consent to allow Red Cardinal Property Investment to store and process the
+            personal information submitted above to provide you the content requested.</p>
+        <br>
+        <p>I agree to receive other communications from Red Cardinal Property Investment.</p>
+        <br>
+        <form action="/submitEnquiry" method="post" style="width: 90%; max-width: 600px; margin: 20px auto; padding: 20px; border-radius: 10px; background-color: #FFFFFF">
+            <div class="input-container">
+                <div style="margin-bottom: 15px;">
+                    <label for="firstName" style="display: block; font-weight: bold; color: #333; padding-bottom: 10px">First name</label>
+                    <input type="text" id="firstName" name="firstName" required style="width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 5px;">
+                </div>
+                <div style="margin-bottom: 15px;">
+                    <label for="lastName" style="display: block; font-weight: bold; color: #333; padding-bottom: 10px">Last name</label>
+                    <input type="text" id="lastName" name="lastName" required style="width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 5px;">
+                </div>
+            </div>
+
+            <div style="margin-bottom: 15px;">
+                <label for="email" style="display: block; font-weight: bold; color: #333; padding-bottom: 10px">Email</label>
+                <input type="email" id="email" name="email" required style="width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 5px;">
+            </div>
+
+            <div style="margin-bottom: 15px;">
+                <label for="phone" style="display: block; font-weight: bold; color: #333; padding-bottom: 10px">Phone number</label>
+                <input type="tel" id="phone" name="phone" required style="width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 5px;">
+            </div>
+
+            <div style="margin-bottom: 15px;">
+                <label for="message" style="display: block; font-weight: bold; color: #333; padding-bottom: 10px">Message</label>
+                <textarea id="message" name="message" rows="4" required style="width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 5px;"></textarea>
+            </div>
+
+            <button type="submit" style="background-color: #CC0201; color: white; padding: 12px 20px; border: none; border-radius: 5px; cursor: pointer;">Submit</button>
+        </form>
+    </div>
+</div>
+<div class="contact__information">
+    <ul>
+        <li>
+            <h1>Contact information</h1>
+        </li>
+    </ul>
+    <h2>Address</h2>
+    <p>29 Nawam Mawathe, kollupitiya</p>
+    <br>
+    <h2>Email</h2>
+    <p>info@redcardinal.lk</p>
+    <br>
+    <h2>Telephone</h2>
+    <p>+94 777 720 054</p>
+    <p>+94 777 035 554</p>
+</div>
+
+
+
+<!--footer__section__one-->
+<div class="footer__section">
+    <div class="footer__section__one">
+        <h3>Quick Links</h3>
+        <a href="./index.html">Home</a> <br>
+        <a href="./sales.html">Sales</a> <br>
+        <a href="./contact.html">Contact Us</a>
+    </div>
+    <div class="footer__section__one__social">
+        <h3>Stay Connected</h3>
+        <div class="footer__section__one__social__images">
+            <img src="./Images/facebook.png" alt="Facebook">
+            <img src="./Images/youtube.png" alt="Youtube">
+            <img src="./Images/instagram.png" alt="Instagram">
+            <img src="./Images/twitter.png" alt="Twitter">
+        </div>
+    </div>
+</div>
+<!--footer__section__two-->
+<div class="footer__section__two">
+    <div class="footer__section__two__one">
+        <img src="./Images/phone-call.png" alt="Call">
+        <p>Call Us Now</p>
+        <p>+94 777 720 054</p>
+        <p>+94 777 035 554</p>
+    </div>
+    <div class="footer__section__two__one">
+        <img src="./Images/email.png" alt="Email">
+        <p>Email Us</p>
+        <p>sales@lankarealestate.lk</p>
+    </div>
+    <div class="footer__end">
+        <p>9 A.M. to 5 P.M. Monday-Friday (GMT +5:30)</p>
+        <p>&copy; 2002-2025 lankarealestate.lk</p>
+        <p>All Rights Reserved</p>
+    </div>
+    <div class="footer__end">
+        <p>DESIGN AND DEVELOPMENT:</p>
+        <p>MET_OOP_Y1S2_03</p>
+    </div>
+</div>
+
+<script>
+    function togglePopup() {
+        const popup = document.getElementById("popupCard");
+        popup.style.display = popup.style.display === "block" ? "none" : "block";
+    }
+
+    document.addEventListener("click", function(event) {
+        const popup = document.getElementById("popupCard");
+        const target = event.target;
+        const isInside = target.closest(".nav__bar__section3") !== null;
+        if (!isInside) {
+            popup.style.display = "none";
+        }
+    });
+</script>
+
+</body>
+
+</html>

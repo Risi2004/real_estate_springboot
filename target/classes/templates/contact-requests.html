@@ -1,0 +1,622 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Contact Requests</title>
+    <style>
+        :root {
+            --primary-color: #2563eb;
+            --secondary-color: #1e40af;
+            --accent-color: #f59e0b;
+            --danger-color: #dc2626;
+            --success-color: #10b981;
+            --light-bg: #f3f4f6;
+            --dark-text: #1f2937;
+            --light-text: #f9fafb;
+            --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.05);
+            --shadow-md: 0 4px 6px rgba(0, 0, 0, 0.1);
+            --shadow-lg: 0 10px 15px rgba(0, 0, 0, 0.1);
+            --border-radius: 8px;
+        }
+
+        * {
+            font-family: "Glacial Indifference", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, sans-serif;
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            background-color: #f9f9f9;
+        }
+
+        /* Navbar Styling */
+        .nav__bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0.75rem 2rem;
+            background-color: white;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        .nav__bar__section1 {
+            display: flex;
+            gap: 2rem;
+        }
+
+        .nav__bar__section1 a {
+            text-decoration: none;
+            color: #1f2937;
+            font-weight: 500;
+            position: relative;
+            padding: 0.5rem 0;
+            transition: color 0.3s;
+        }
+
+        .nav__bar__section1 a:hover {
+            color: var(--primary-color);
+        }
+
+        .nav__bar__section1 a::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: 0;
+            left: 0;
+            background-color: var(--primary-color);
+            transition: width 0.3s ease;
+        }
+
+        .nav__bar__section1 a:hover::after {
+            width: 100%;
+        }
+
+        .nav__bar__section2 img {
+            width: 150px;
+            height: auto;
+        }
+
+        .nav__bar__section3 {
+            display: flex;
+            align-items: center;
+        }
+
+        .nav__bar__right {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            cursor: pointer;
+            padding: 0.5rem;
+            border-radius: 8px;
+            transition: background-color 0.2s;
+        }
+
+        .nav__bar__right:hover {
+            background-color: var(--light-bg);
+        }
+
+        .profile {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 2px solid var(--primary-color);
+        }
+
+        .username {
+            font-weight: 500;
+            color: #1f2937;
+        }
+
+        .dropdown-arrow {
+            font-size: 0.75rem;
+            color: #64748b;
+        }
+
+        .popup-card {
+            display: none;
+            position: absolute;
+            right: 0;
+            top: 60px;
+            background-color: white;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+            border-radius: 8px;
+            padding: 10px 0;
+            z-index: 999;
+            animation: fadeIn 0.3s ease-in-out;
+            min-width: 200px;
+            border: 1px solid #e5e7eb;
+        }
+
+        .popup-card a {
+            display: block;
+            padding: 10px 20px;
+            text-decoration: none;
+            color: #1f2937;
+            font-weight: 500;
+            transition: background-color 0.2s;
+        }
+
+        .popup-card a:hover {
+            background-color: var(--light-bg);
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(-10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        h2 {
+            text-align: center;
+            margin: 30px 0 20px;
+            color: #1f2937;
+        }
+
+        table {
+            width: 90%;
+            margin: 0 auto 50px;
+            border-collapse: collapse;
+            background-color: white;
+            box-shadow: 0 0 8px rgba(0,0,0,0.1);
+        }
+
+        th, td {
+            padding: 12px;
+            border: 1px solid #ddd;
+            text-align: center;
+        }
+
+        th {
+            background-color: var(--primary-color);
+            color: white;
+        }
+
+        tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+
+        .read-status {
+            color: green;
+            font-weight: bold;
+        }
+
+        .mark-btn {
+            background-color: var(--success-color);
+            color: white;
+            border: none;
+            border-radius: 4px;
+            padding: 6px 10px;
+            cursor: pointer;
+        }
+
+        .back-btn {
+            margin-bottom: 20px;
+            background-color: var(--primary-color);
+            color: white;
+            padding: 10px 16px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+        }
+
+        form.inline {
+            display: inline-block;
+            margin: 0;
+        }
+
+        .popup-card {
+            display: none;
+            position: absolute;
+            right: 10px;
+            top: 60px;
+            background-color: white;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+            border-radius: 8px;
+            padding: 15px;
+            z-index: 999;
+            animation: fadeIn 0.3s ease-in-out;
+            min-width: 200px;
+        }
+
+        .popup-card a {
+            display: block;
+            padding: 8px 12px;
+            text-decoration: none;
+            color: black;
+            font-weight: 500;
+            border-bottom: 1px solid #eee;
+        }
+
+        .popup-card a:last-child {
+            border-bottom: none;
+        }
+
+        .popup-card a:hover {
+            background-color: #f2f2f2;
+        }
+
+        .nav__bar__right{
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .dropdown-arrow {
+            font-size: 0.75rem;
+            color: #64748b;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(-10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Enhanced Page Header */
+        .page-header {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            padding: 30px 20px;
+            text-align: center;
+            margin-bottom: 30px;
+            border-radius: 0 0 10px 10px;
+            box-shadow: var(--shadow-md);
+        }
+
+        .page-header h1 {
+            font-size: 2rem;
+            margin-bottom: 10px;
+            font-weight: 600;
+        }
+
+        .page-header p {
+            font-size: 1rem;
+            max-width: 600px;
+            margin: 0 auto;
+            opacity: 0.9;
+        }
+
+        /* Container for table */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Enhanced Table Styling */
+        .requests-table-container {
+            background-color: white;
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow-md);
+            overflow: hidden;
+            margin-bottom: 40px;
+        }
+
+        .table-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px;
+            border-bottom: 1px solid #e5e7eb;
+        }
+
+        .table-title {
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: var(--dark-text);
+            margin: 0;
+        }
+
+        .requests-count {
+            background-color: var(--primary-color);
+            color: white;
+            border-radius: 20px;
+            padding: 5px 12px;
+            font-size: 0.875rem;
+            font-weight: 500;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background-color: white;
+            border: none;
+            box-shadow: none;
+        }
+
+        th, td {
+            padding: 16px;
+            border: none;
+            border-bottom: 1px solid #e5e7eb;
+            text-align: left;
+        }
+
+        th {
+            background-color: #f9fafb;
+            color: var(--dark-text);
+            font-weight: 600;
+            font-size: 0.875rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        tbody tr {
+            transition: background-color 0.2s;
+        }
+
+        tbody tr:hover {
+            background-color: #f3f4f6;
+        }
+
+        tr:nth-child(even) {
+            background-color: #fafafa;
+        }
+
+        /* Enhanced status styling */
+        .read-status {
+            display: inline-block;
+            padding: 6px 10px;
+            border-radius: 20px;
+            font-size: 0.875rem;
+            font-weight: 500;
+            background-color: #ecfdf5;
+            color: var(--success-color);
+        }
+
+        .mark-btn {
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            border-radius: 20px;
+            padding: 6px 12px;
+            cursor: pointer;
+            font-size: 0.875rem;
+            font-weight: 500;
+            transition: all 0.2s;
+        }
+
+        .mark-btn:hover {
+            background-color: var(--secondary-color);
+            transform: translateY(-1px);
+            box-shadow: var(--shadow-sm);
+        }
+
+        .mark-btn:active {
+            transform: translateY(0);
+        }
+
+        /* Message styling */
+        .message-cell {
+            max-width: 200px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+
+        .message-tooltip {
+            position: relative;
+            cursor: pointer;
+        }
+
+        .message-tooltip:hover .message-full {
+            display: block;
+        }
+
+        .message-full {
+            display: none;
+            position: absolute;
+            top: 100%;
+            left: 0;
+            background-color: white;
+            padding: 10px;
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow-md);
+            width: 250px;
+            z-index: 100;
+            white-space: normal;
+        }
+
+        /* Mobile responsive */
+        @media (max-width: 1024px) {
+            .table-responsive {
+                overflow-x: auto;
+            }
+
+            th, td {
+                padding: 12px 10px;
+            }
+
+            .message-cell {
+                max-width: 150px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .page-header {
+                padding: 20px 15px;
+            }
+
+            .page-header h1 {
+                font-size: 1.75rem;
+            }
+
+            .container {
+                padding: 0 15px;
+            }
+
+            th, td {
+                padding: 10px 8px;
+                font-size: 0.875rem;
+            }
+
+            .message-cell {
+                max-width: 100px;
+            }
+        }
+
+        /* Empty state */
+        .empty-state {
+            padding: 60px 20px;
+            text-align: center;
+        }
+
+        .empty-state-icon {
+            font-size: 48px;
+            margin-bottom: 15px;
+            color: #d1d5db;
+        }
+
+        .empty-state-title {
+            font-size: 1.25rem;
+            margin-bottom: 10px;
+            color: var(--dark-text);
+        }
+
+        .empty-state-text {
+            color: #6b7280;
+            max-width: 400px;
+            margin: 0 auto;
+        }
+
+        /* Footer */
+        .footer {
+            text-align: center;
+            padding: 30px 0;
+            margin-top: 40px;
+            background-color: white;
+            border-top: 1px solid #e5e7eb;
+        }
+
+        .footer p {
+            color: #6b7280;
+            font-size: 0.9rem;
+        }
+    </style>
+</head>
+<body>
+
+<!--navbar - PRESERVED AS REQUESTED -->
+<div class="nav__bar">
+    <div class="nav__bar__section1">
+        <a href="/home">Home</a>
+        <a href="/sales">Sales</a>
+        <a href="/contact">Contact Us</a>
+    </div>
+    <div class="nav__bar__section2">
+        <img src="./Images/smaller-feather-300x134.png" alt="Logo">
+    </div>
+    <div class="nav__bar__section3">
+        <div style="position: relative;">
+            <div class="nav__bar__right" onclick="togglePopup()">
+                <img src="./Images/profile.png" alt="profile" class="profile" onclick="togglePopup()">
+                <p class="username"> <span th:text="${username}"></span> </p>
+                <span class="dropdown-arrow">▼</span>
+            </div>
+            <div id="popupCard" class="popup-card">
+                <a href="/edit">Edit Details</a>
+                <a href="/logout">Sign Out</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Enhanced Header -->
+<div class="page-header">
+    <h1>Contact Requests Dashboard</h1>
+    <p>Manage all visitor inquiries and property viewing requests</p>
+</div>
+
+<div class="container">
+    <!-- Enhanced Table Container -->
+    <div class="requests-table-container">
+        <div class="table-header">
+            <h2 class="table-title">Visitor Requests</h2>
+            <span class="requests-count" th:text="${requests.size() + ' Requests'}">0 Requests</span>
+        </div>
+
+        <div class="table-responsive">
+            <table th:if="${not #lists.isEmpty(requests)}">
+                <thead>
+                <tr>
+                    <th>Visitor Name</th>
+                    <th>Date</th>
+                    <th>Time Slot</th>
+                    <th>Contact No</th>
+                    <th>Message</th>
+                    <th>Property</th>
+                    <th>Status</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="req : ${requests}">
+                    <td th:text="${req.visitorName}"></td>
+                    <td th:text="${req.date}"></td>
+                    <td th:text="${req.timeSlot}"></td>
+                    <td th:text="${req.contactNumber}"></td>
+                    <td class="message-cell">
+                        <div class="message-tooltip">
+                            <span th:text="${#strings.abbreviate(req.message, 30)}"></span>
+                            <div class="message-full" th:text="${req.message}"></div>
+                        </div>
+                    </td>
+                    <td th:text="${req.propertyLocation}"></td>
+                    <td>
+                        <form th:if="${!req.read}" method="post" action="/mark-contact-read" class="inline">
+                            <input type="hidden" name="name" th:value="${req.visitorName}">
+                            <input type="hidden" name="date" th:value="${req.date}">
+                            <input type="hidden" name="timeSlot" th:value="${req.timeSlot}">
+                            <input type="hidden" name="owner" th:value="${req.owner}">
+                            <button type="submit" class="mark-btn">Mark as Read</button>
+                        </form>
+                        <span th:if="${req.read}" class="read-status">Read</span>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+
+            <!-- Empty state when no requests -->
+            <div th:if="${#lists.isEmpty(requests)}" class="empty-state">
+                <div class="empty-state-icon">📪</div>
+                <h3 class="empty-state-title">No Contact Requests</h3>
+                <p class="empty-state-text">You don't have any contact requests at the moment. They will appear here when visitors show interest in your properties.</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+<script>
+    function togglePopup() {
+        const card = document.getElementById("popupCard");
+        card.style.display = card.style.display === "block" ? "none" : "block";
+    }
+
+    window.onclick = function(event) {
+        const card = document.getElementById("popupCard");
+        if (!event.target.closest('.nav__bar__right')) {
+            card.style.display = "none";
+        }
+    };
+</script>
+
+</body>
+</html>
