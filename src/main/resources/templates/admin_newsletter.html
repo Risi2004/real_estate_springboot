@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Newsletter Subscriptions</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            margin: 0;
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(to right, #00b09b, #96c93d);
+            color: #333;
+        }
+        .signout-button {
+            background-color: #ff4d4f;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: background-color 0.3s;
+        }
+        .signout-button:hover {
+            background-color: #d9363e;
+        }
+        .nav__bar__section1 {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: #1f1f2e;
+            padding: 15px 30px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+        .nav__bar__section1 h2 {
+            color: white;
+            margin: 0;
+            font-size: 24px;
+        }
+        .nav__bar__section1__links {
+            display: flex;
+            gap: 25px;
+            align-items: center;
+        }
+        .nav__bar__section1 a {
+            text-decoration: none;
+            color: #fff;
+            font-weight: 500;
+            padding: 8px 12px;
+            border-radius: 4px;
+            transition: background 0.3s;
+        }
+        .nav__bar__section1 a:hover {
+            background: rgba(255, 255, 255, 0.15);
+        }
+        body {
+            margin: 0;
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(to right, #00b09b, #96c93d);
+            color: #333;
+        }
+        .signout-button {
+            background-color: #ff4d4f;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: background-color 0.3s;
+        }
+        .signout-button:hover {
+            background-color: #d9363e;
+        }
+        .nav__bar__section1 {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: #1f1f2e;
+            padding: 15px 30px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+        .nav__bar__section1 h2 {
+            color: white;
+            margin: 0;
+            font-size: 24px;
+        }
+        .nav__bar__section1__links {
+            display: flex;
+            gap: 35px;
+            align-items: center;
+        }
+        .nav__bar__section1 a {
+            text-decoration: none;
+            color: #fff;
+            font-weight: 500;
+            padding: 8px 12px;
+            border-radius: 4px;
+            transition: background 0.3s;
+        }
+        .nav__bar__section1 a:hover {
+            background: rgba(255, 255, 255, 0.15);
+        }
+        .nav__bar__section1 a.active {
+            background-color: rgba(255, 255, 255, 0.25);
+            border-radius: 4px;
+            font-weight: bold;
+        }
+        h2 {
+            text-align: center;
+            margin: 30px;
+            color: white;
+        }
+        table {
+            width: 90%;
+            margin: auto;
+            background-color: white;
+            border-collapse: collapse;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.2);
+        }
+        th, td {
+            padding: 15px;
+            text-align: center;
+            border-bottom: 1px solid #ddd;
+        }
+        th {
+            background-color: #007bff;
+            color: white;
+        }
+    </style>
+</head>
+<body>
+
+<div class="nav__bar__section1">
+    <h2>Real Estate Admin</h2>
+    <div class="nav__bar__section1__links">
+        <a href="/admin-home">Home</a>
+        <a href="/admin_users">Registered Users</a>
+        <a href="/admin_properties">All Properties</a>
+        <a href="/admin_contact">Contact Requests</a>
+        <a href="/admin_enquiry">Enquiry Details</a>
+        <a href="/admin_newsletter" class="active">Newsletter Subscriptions</a>
+        <form th:action="@{/logout}" method="get" style="display:inline;">
+            <button type="submit" class="signout-button">Sign Out</button>
+        </form>
+    </div>
+</div>
+
+<h2>Newsletter Subscriptions</h2>
+<table>
+    <thead>
+    <tr>
+        <th>First Name</th>
+        <th>Last Name</th>
+        <th>Email</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="sub : ${subscriptions}">
+        <td th:text="${sub.firstName}">First</td>
+        <td th:text="${sub.lastName}">Last</td>
+        <td th:text="${sub.email}">email@example.com</td>
+    </tr>
+    </tbody>
+</table>
+</body>
+</html>

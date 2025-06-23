@@ -1,0 +1,375 @@
+<!--<!DOCTYPE html>-->
+<!--<html xmlns:th="http://www.thymeleaf.org">-->
+<!--<head>-->
+<!--    <title>Payment Receipt</title>-->
+<!--    <meta name="viewport" content="width=device-width, initial-scale=1.0">-->
+<!--    <style>-->
+<!--        * {-->
+<!--            box-sizing: border-box;-->
+<!--            margin: 0;-->
+<!--            padding: 0;-->
+<!--            font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, sans-serif;-->
+<!--        }-->
+
+<!--        body {-->
+<!--            background-color: #f8fafc;-->
+<!--            padding: 40px 20px;-->
+<!--            min-height: 100vh;-->
+<!--            display: flex;-->
+<!--            align-items: center;-->
+<!--            justify-content: center;-->
+<!--        }-->
+
+<!--        .receipt-container {-->
+<!--            width: 100%;-->
+<!--            max-width: 650px;-->
+<!--            background-color: white;-->
+<!--            padding: 40px;-->
+<!--            margin: auto;-->
+<!--            border-radius: 16px;-->
+<!--            box-shadow: 0 10px 25px rgba(0,0,0,0.06);-->
+<!--        }-->
+
+<!--        .receipt-header {-->
+<!--            text-align: center;-->
+<!--            margin-bottom: 30px;-->
+<!--            position: relative;-->
+<!--        }-->
+
+<!--        .receipt-header h2 {-->
+<!--            color: #2563eb;-->
+<!--            font-size: 28px;-->
+<!--            font-weight: 600;-->
+<!--            margin-bottom: 8px;-->
+<!--        }-->
+
+<!--        .success-indicator {-->
+<!--            display: inline-flex;-->
+<!--            align-items: center;-->
+<!--            justify-content: center;-->
+<!--            color: #10b981;-->
+<!--            font-weight: 500;-->
+<!--            font-size: 16px;-->
+<!--            margin-bottom: 20px;-->
+<!--        }-->
+
+<!--        .success-indicator svg {-->
+<!--            margin-right: 8px;-->
+<!--        }-->
+
+<!--        pre {-->
+<!--            background-color: #f8fafc;-->
+<!--            padding: 25px;-->
+<!--            border-radius: 12px;-->
+<!--            white-space: pre-wrap;-->
+<!--            word-wrap: break-word;-->
+<!--            font-family: monospace;-->
+<!--            font-size: 14px;-->
+<!--            line-height: 1.6;-->
+<!--            color: #334155;-->
+<!--            border: 1px solid #e2e8f0;-->
+<!--        }-->
+
+<!--        .button-group {-->
+<!--            margin-top: 30px;-->
+<!--            display: flex;-->
+<!--            justify-content: center;-->
+<!--            gap: 16px;-->
+<!--            flex-wrap: wrap;-->
+<!--        }-->
+
+<!--        .button-group button {-->
+<!--            padding: 12px 24px;-->
+<!--            background-color: #2563eb;-->
+<!--            color: white;-->
+<!--            border: none;-->
+<!--            border-radius: 8px;-->
+<!--            cursor: pointer;-->
+<!--            font-weight: 600;-->
+<!--            font-size: 15px;-->
+<!--            transition: all 0.2s ease;-->
+<!--            box-shadow: 0 2px 10px rgba(37, 99, 235, 0.15);-->
+<!--        }-->
+
+<!--        .button-group button:hover {-->
+<!--            background-color: #1d4ed8;-->
+<!--            transform: translateY(-2px);-->
+<!--            box-shadow: 0 4px 12px rgba(37, 99, 235, 0.2);-->
+<!--        }-->
+
+<!--        .back-button {-->
+<!--            background-color: #f1f5f9 !important;-->
+<!--            color: #334155 !important;-->
+<!--            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05) !important;-->
+<!--        }-->
+
+<!--        .back-button:hover {-->
+<!--            background-color: #e2e8f0 !important;-->
+<!--        }-->
+
+<!--        .divider {-->
+<!--            height: 1px;-->
+<!--            background: linear-gradient(to right, transparent, #e2e8f0, transparent);-->
+<!--            margin: 30px 0;-->
+<!--        }-->
+
+<!--        @media (max-width: 600px) {-->
+<!--            .receipt-container {-->
+<!--                padding: 25px;-->
+<!--            }-->
+
+<!--            .button-group {-->
+<!--                flex-direction: column;-->
+<!--            }-->
+
+<!--            .button-group button {-->
+<!--                width: 100%;-->
+<!--            }-->
+<!--        }-->
+<!--    </style>-->
+<!--</head>-->
+<!--<body>-->
+<!--<div class="receipt-container" id="receipt-section">-->
+<!--    <div class="receipt-header">-->
+<!--        <h2>Payment Receipt</h2>-->
+<!--        <div class="success-indicator">-->
+<!--            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">-->
+<!--                <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>-->
+<!--                <polyline points="22 4 12 14.01 9 11.01"></polyline>-->
+<!--            </svg>-->
+<!--            Payment Successful-->
+<!--        </div>-->
+<!--    </div>-->
+
+<!--    <pre th:text="${receipt}"></pre>-->
+
+<!--    <div class="divider"></div>-->
+
+<!--    <div class="button-group">-->
+<!--        <button class="download-button" onclick="printReceipt()">-->
+<!--            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">-->
+<!--                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>-->
+<!--                <polyline points="7 10 12 15 17 10"></polyline>-->
+<!--                <line x1="12" y1="15" x2="12" y2="3"></line>-->
+<!--            </svg>-->
+<!--            Save as PDF-->
+<!--        </button>-->
+<!--        <button class="back-button" onclick="window.location.href='/sales'">Go Back to Sales Page</button>-->
+<!--    </div>-->
+<!--</div>-->
+
+<!--<script>-->
+<!--    function printReceipt() {-->
+<!--        const content = document.getElementById("receipt-section").innerHTML;-->
+<!--        const original = document.body.innerHTML;-->
+<!--        document.body.innerHTML = content;-->
+<!--        window.print();-->
+<!--        document.body.innerHTML = original;-->
+<!--        location.reload();-->
+<!--    }-->
+<!--</script>-->
+<!--</body>-->
+<!--</html>-->
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Payment Receipt</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, sans-serif;
+        }
+
+        body {
+            background-color: #f8fafc;
+            padding: 40px 20px;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .receipt-container {
+            width: 100%;
+            max-width: 650px;
+            background-color: white;
+            padding: 40px;
+            border-radius: 16px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.06);
+        }
+
+        .receipt-header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .receipt-header h2 {
+            color: #2563eb;
+            font-size: 28px;
+            font-weight: 600;
+        }
+
+        .success-indicator {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            color: #10b981;
+            font-weight: 500;
+            font-size: 16px;
+            margin: 16px 0;
+        }
+
+        .success-indicator svg {
+            margin-right: 8px;
+        }
+
+        pre {
+            background-color: #f1f5f9;
+            padding: 25px;
+            border-radius: 12px;
+            white-space: pre-wrap;
+            word-wrap: break-word;
+            font-family: monospace;
+            font-size: 14px;
+            line-height: 1.6;
+            color: #334155;
+            border: 1px solid #e2e8f0;
+        }
+
+        .button-group {
+            margin-top: 30px;
+            display: flex;
+            justify-content: center;
+            gap: 16px;
+            flex-wrap: wrap;
+        }
+
+        .button-group button {
+            padding: 12px 24px;
+            background-color: #2563eb;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 15px;
+            transition: all 0.2s ease;
+            box-shadow: 0 2px 10px rgba(37, 99, 235, 0.15);
+        }
+
+        .button-group button:hover {
+            background-color: #1d4ed8;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(37, 99, 235, 0.2);
+        }
+
+        .back-button {
+            background-color: #f1f5f9 !important;
+            color: #334155 !important;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05) !important;
+        }
+
+        .back-button:hover {
+            background-color: #e2e8f0 !important;
+        }
+
+        .divider {
+            height: 1px;
+            background: linear-gradient(to right, transparent, #e2e8f0, transparent);
+            margin: 30px 0;
+        }
+
+        @media print {
+            .button-group {
+                display: none;
+            }
+
+            body {
+                padding: 0;
+                background: white;
+            }
+
+            .receipt-container {
+                box-shadow: none;
+                border: none;
+                padding: 0;
+            }
+        }
+
+        @media (max-width: 600px) {
+            .receipt-container {
+                padding: 25px;
+            }
+
+            .button-group {
+                flex-direction: column;
+            }
+
+            .button-group button {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+<div class="receipt-container" id="receipt-section">
+    <div class="receipt-header">
+        <h2>Payment Receipt</h2>
+        <div class="success-indicator">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
+                <polyline points="22 4 12 14.01 9 11.01"></polyline>
+            </svg>
+            Payment Successful
+        </div>
+    </div>
+
+    <pre th:text="${receipt}"></pre>
+
+    <div class="divider"></div>
+
+    <div class="button-group">
+        <a th:href="@{'/download-receipt?invoice=' + ${invoiceId}}" download>
+            <button class="download-button">Download PDF Receipt</button>
+        </a>
+
+        <button id="button" class="back-button" onclick="window.location.href='/sales'">Go Back to Sales Page</button>
+    </div>
+</div>
+
+<script>
+    function printReceipt() {
+        window.print();
+    }
+
+    var btn = document.getElementById('button');
+    btn.addEventListener('click', function () {
+        alert("Property Added Successfully");
+    });
+
+</script>
+</body>
+</html>

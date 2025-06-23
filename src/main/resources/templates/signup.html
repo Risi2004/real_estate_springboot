@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Signup</title>
+  <style>
+    body {
+      background-color: #f0f5ff;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      margin: 0;
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+      color: #333;
+    }
+
+    .nav__bar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 15px 40px;
+      font-size: 16px;
+      position: sticky;
+      top: 0;
+      background-color: white;
+      z-index: 1000;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
+    }
+
+    .nav__bar__section1 {
+      display: flex;
+      gap: 40px;
+    }
+
+    .nav__bar__section1 a {
+      text-decoration: none;
+      color: #444;
+      font-weight: 500;
+      position: relative;
+      transition: color 0.3s;
+    }
+
+    .nav__bar__section1 a:hover {
+      color: #5bb0ea;
+    }
+
+    .nav__bar__section1 a::after {
+      content: '';
+      position: absolute;
+      width: 0;
+      height: 2px;
+      bottom: -5px;
+      left: 0;
+      background-color: #5bb0ea;
+      transition: width 0.3s;
+    }
+
+    .nav__bar__section1 a:hover::after {
+      width: 100%;
+    }
+
+    .nav__bar__section2 img {
+      width: 170px;
+      transition: transform 0.3s;
+    }
+
+    .nav__bar__section2 img:hover {
+      transform: scale(1.05);
+    }
+
+    .nav__bar__section3 {
+      display: flex;
+      align-items: center;
+      gap: 15px;
+    }
+
+    .nav__bar__section3 button {
+      padding: 10px 20px;
+      border-radius: 30px;
+      font-size: 15px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s;
+    }
+
+    #signinbtn {
+      background-color: #5bb0ea;
+      color: white;
+      border: 2px solid #5bb0ea;
+      width: 100px;
+    }
+
+    #signupbtn {
+      background-color: #5bb0ea;
+      color: white;
+      border: 2px solid #5bb0ea;
+      width: 100px;
+    }
+
+    #signinbtn:hover {
+      transform: translateY(-2px);
+    }
+
+    #signupbtn:hover {
+      transform: translateY(-2px);
+    }
+
+    .form-container {
+      background-color: white;
+      padding: 40px;
+      margin: 50px auto;
+      border-radius: 15px;
+      box-shadow: 0 5px 25px rgba(0, 0, 0, 0.1);
+      width: 350px;
+      transition: transform 0.3s, box-shadow 0.3s;
+      animation: fadeIn 0.8s ease-in-out;
+    }
+
+    .form-container:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+    }
+
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    h2 {
+      text-align: center;
+      margin-bottom: 30px;
+      color: #333;
+      font-size: 28px;
+      font-weight: 600;
+    }
+
+    form label {
+      display: block;
+      margin-bottom: 5px;
+      font-weight: 500;
+      color: #555;
+      font-size: 14px;
+    }
+
+    input[type="text"],
+    input[type="password"],
+    input[type="email"]{
+      width: 100%;
+      padding: 12px 15px;
+      margin-bottom: 20px;
+      border: 1px solid #ddd;
+      border-radius: 8px;
+      font-size: 16px;
+      transition: all 0.3s;
+      box-sizing: border-box;
+    }
+
+    input[type="text"]:focus,
+    input[type="password"]:focus,
+    input[type="email"]:focus {
+      border-color: #5bb0ea;
+      outline: none;
+      box-shadow: 0 0 0 3px rgba(91, 176, 234, 0.2);
+    }
+
+    form button {
+      width: 100%;
+      padding: 14px;
+      margin-top: 10px;
+      background-color: #5bb0ea;
+      border: none;
+      border-radius: 8px;
+      color: white;
+      font-weight: 600;
+      font-size: 16px;
+      cursor: pointer;
+      transition: all 0.3s;
+      box-shadow: 0 4px 6px rgba(91, 176, 234, 0.2);
+    }
+
+    form button:hover {
+      background-color: #4a9ed9;
+      transform: translateY(-2px);
+      box-shadow: 0 6px 10px rgba(91, 176, 234, 0.3);
+    }
+
+    form button:active {
+      transform: translateY(0);
+    }
+
+    p {
+      text-align: center;
+      margin-top: 20px;
+      color: #555;
+      font-size: 14px;
+    }
+
+    p a {
+      color: #5bb0ea;
+      text-decoration: none;
+      font-weight: 600;
+      transition: color 0.3s;
+    }
+
+    p a:hover {
+      color: #4a9ed9;
+      text-decoration: underline;
+    }
+
+    .p {
+      color: #e74c3c;
+      font-weight: 500;
+      margin-top: 15px;
+    }
+
+    /* Additional styling for login page */
+    .form-container h2 {
+      position: relative;
+      display: inline-block;
+    }
+
+    .form-container h2::after {
+      content: '';
+      position: absolute;
+      width: 50px;
+      height: 3px;
+      background-color: #5bb0ea;
+      bottom: -10px;
+      left: 50%;
+      transform: translateX(-50%);
+      border-radius: 2px;
+    }
+  </style>
+</head>
+<body>
+
+<!--navbar-->
+<div class="nav__bar">
+  <div class="nav__bar__section1">
+    <a href="/index">Home</a>
+    <a href="/login">Sales</a>
+    <a href="/login">Contact Us</a>
+  </div>
+  <div class="nav__bar__section2">
+    <img src="./Images/smaller-feather-300x134.png" alt="Logo">
+  </div>
+  <div class="nav__bar__section3">
+    <button id="signinbtn">Sign In</button>
+    <button id="signupbtn">Sign Up</button>
+  </div>
+</div>
+
+<div class="form-container">
+  <h2>Signup</h2>
+  <form method="post" action="/signup">
+    Username: <input type="text" name="username" required><br>
+    Password: <input type="password" name="password" required><br>
+    Email: <input type="email" name="gmail" required><br>
+    <button type="submit">Signup</button>
+  </form>
+  <p th:text="${message}" style="color: red; font-weight: bold; text-align: center;"></p>
+</div>
+<script>
+  var signinbtn = document.getElementById("signinbtn");
+  var signupbtn = document.getElementById("signupbtn");
+
+  signinbtn.addEventListener("click",function(){
+    window.location.href = "/login"
+  })
+
+  signupbtn.addEventListener("click",function(){
+    window.location.href = "/signup"
+  })
+
+
+</script>
+</body>
+</html>
