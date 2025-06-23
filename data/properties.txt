@@ -1,0 +1,2 @@
+Risi,Wattala,Sri Lanka,4000.0,rent,300,https://cdn.pixabay.com/photo/2018/11/06/22/29/land-3799279_1280.jpg
+Risi,Wellawatte,Sri Lanka,2000.0,rent,300,https://cdn.pixabay.com/photo/2022/03/21/02/08/land-7082135_1280.jpg
